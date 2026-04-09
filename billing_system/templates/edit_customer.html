@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Customer</title>
+    <style>
+        :root {
+            --primary-blue: #4f46e5;       /* Indigo */
+            --hover-blue: #4338ca;         /* Darker indigo */
+            --accent-violet: #818cf8;      /* Soft violet */
+            --bg-main: #f1f5f9;            /* Light cool background */
+            --bg-gradient-1: rgba(99, 102, 241, 0.15);
+            --bg-gradient-2: rgba(129, 140, 248, 0.15);
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(circle at 10% 20%, var(--bg-gradient-1) 0%, transparent 20%),
+                            radial-gradient(circle at 90% 80%, var(--bg-gradient-2) 0%, transparent 20%);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        /* Top Navigation Link */
+        .nav-header {
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 24px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--primary-blue);
+            transform: translateX(-5px);
+        }
+
+        /* The Form Card */
+        .form-container {
+            background-color: var(--white);
+            padding: 48px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 
+                        0 1px 3px rgba(0, 0, 0, 0.02);
+            width: 100%;
+            max-width: 480px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            margin: 0 0 30px 0;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* Input Group Styling */
+        .input-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-left: 4px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #f0f0f0;
+            border-radius: 14px;
+            box-sizing: border-box;
+            font-size: 15px;
+            background-color: #fafafa;
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        input:focus {
+            border-color: var(--accent-violet);
+            box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.2);  
+        }
+
+        input:hover {
+            border-color: #e0e0e0;
+        }
+
+        /* Save Button */
+        button {
+            width: 100%;
+            background-color: var(--accent-lavender);
+            color: #5a5a7a;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(209, 207, 226, 0.3);
+        }
+
+        button:hover {
+            background-color: #c4c1d8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(209, 207, 226, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Subtle placeholder color */
+        input::placeholder {
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-header">
+        <a href="{{ url_for('admindashboard') }}" class="back-link">
+            <svg style="margin-right: 8px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back to Dashboard
+        </a>
+    </div>
+
+    <div class="form-container">
+        <h2>Edit Customer</h2>
+
+        <form method="POST">
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" value="{{customer.get_name()}}" placeholder="Enter full name">
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" value="{{customer.get_email()}}" placeholder="name@example.com">
+            </div>
+
+            <div class="input-group">
+                <label for="contact">Contact Number</label>
+                <input type="tel" id="contact" name="contact" value="{{customer.get_contact()}}" placeholder="+1 234 567 890">
+            </div>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+</body>
+</html>

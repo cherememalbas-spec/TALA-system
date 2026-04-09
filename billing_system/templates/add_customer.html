@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Customer</title>
+    <style>
+        :root {
+            --primary-blue: #4f46e5;       /* Indigo */
+            --hover-blue: #4338ca;         /* Darker indigo */
+            --accent-violet: #818cf8;      /* Soft violet */
+            --bg-main: #f1f5f9;            /* Clean light background */
+            --bg-gradient-1: rgba(99, 102, 241, 0.15);
+            --bg-gradient-2: rgba(129, 140, 248, 0.15);
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg-main);
+            background-image: radial-gradient(circle at 10% 20%, var(--bg-gradient-1) 0%, transparent 20%),
+                            radial-gradient(circle at 90% 80%, var(--bg-gradient-2) 0%, transparent 20%);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .nav-header {
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition);
+    }
+
+        .back-link:hover {
+            color: var(--primary-blue);
+        }
+
+        .form-container {
+            background-color: var(--white);
+            padding: 100px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--text-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 14px;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            font-size: 15px;
+            background-color: #f8fafc;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: 2px solid var(--accent-violet);
+            border-color: var(--accent-violet);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.2);
+        }
+
+        button {
+            width: 107%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-violet));
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 6px 12px rgba(99, 102, 241, 0.25);
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, var(--hover-blue), var(--primary-blue));
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-header">
+        <a href="{{ url_for('admindashboard') }}" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <div class="form-container">
+        <h2>Add Customer</h2>
+
+        <form method="POST">
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter Full Name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email" required>
+            </div>
+
+            <div class="input-group">
+                <label for="contact">Contact Number</label>
+                <input type="text" id="contact" name="contact" placeholder="Enter Contact Number" required>
+            </div>
+
+            <button type="submit">Add Customer</button>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TALABILL</title>
+    <style>
+        /* All your CSS stays here exactly as you provided it */
+        :root { --sidebar-bg: #1e293b;
+            --main-bg: #f8fafc;
+            --accent: #6366f1;
+            --text-main: #334155;
+            --text-light: #94a3b8; 
+            --white: #ffffff; 
+            --success: #10b981; 
+            --danger: #ef4444; 
+        }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; 
+            font-family: 'Inter', sans-serif;
+            background-color: #9dc6ed; 
+            color: var(--text-main); 
+            overflow-x: hidden; 
+        }
+        
+        .hamburger {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            cursor: pointer;
+            background: #6786b0;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--white);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        
+        .sidebar { 
+            width: 260px; 
+            background: #79b2f8; 
+            color: white; 
+            height: 100vh; 
+            padding: 80px 20px 30px 20px;
+            position: fixed;
+            left: -300px; /* Hidden by default */
+            top: 0;
+            z-index: 1000;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+        }
+        .sidebar.open { left: 0; }
+
+        .sidebar h2 { 
+            font-size: 1.5rem; 
+            letter-spacing: 2px; 
+            margin-bottom: 40px; 
+            color: var(--accent);
+            text-align: center;
+        }
+        .sidebar a { 
+            display: block; 
+            color: #cbd5e1; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin-bottom: 8px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .sidebar a:hover { 
+            background: rgba(255,255,255,0.1); 
+            color: white; 
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 900;
+        }
+        .overlay.active { display: block; }
+
+        /* --- Main Layout --- */
+        .main-content { 
+            padding: 40px; 
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 40px; /* Space for the hamburger button */
+            transition: 0.4s;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        h1 { font-size: 1.8rem; font-weight: 700; margin: 0; }
+
+        /* --- Search & Buttons --- */
+        .search-container {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+        }
+
+        .search-form { display: flex; gap: 10px; }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-input:focus { border-color: var(--accent); }
+
+        .search-button {
+            background: var(--accent);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .search-button:hover {
+            background: #948ff2;
+            color: var(--accent);
+            
+        }
+
+        .add-btn {
+            background: var(--accent);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        /* --- Table Styling --- */
+        .table-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        
+        th { 
+            background: #f1f5f9; 
+            color: var(--text-light); 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            font-size: 0.75rem;
+            padding: 15px 20px;
+            text-align: left;
+        }
+
+        td { padding: 18px 20px; border-bottom: 1px solid #f1f5f9; }
+
+       .btn-edit, .btn-delete {
+            background: #62b1f6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-edit:hover, .btn-delete:hover {
+            background: #f1289a;
+            color: white;
+        }
+        
+            
+        .alert-box {
+            padding: 15px;
+            margin-bottom: 25px;
+            background-color: #ecfdf5;
+            color: var(--success);
+            border-left: 5px solid var(--success);
+            border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+    </div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <h2>TALABILL</h2>
+        <a href="/userdashboard">Dashboard</a>
+        <a href="/invoice">Invoice</a>
+        <a href="/payment">Payment</a>
+        <a href="/balance">Balance</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="main-content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('hamburger').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+{% if user_type == 'admin' %}
+{% extends "adminlayout.html" %}
+{% else %}
+{% extends "userlayout.html" %}
+{% endif %}
+
+{% block content %}
+        <h1>TALABILL</h1>
+        <h2>Payment Processing</h2>
+
+        {% if pending_invoices %}
+        <div style="margin-bottom: 20px;">
+            <p style="color: #9ab7d3; font-size: 16px;"><strong>{{pending_invoices|length}}</strong> invoice(s) awaiting payment</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Invoice #</th>
+                    <th>Customer</th>
+                    <th>Invoice Date</th>
+                    <th>Due Date</th>
+                    <th>Payment Type</th>
+                    <th>Total Amount</th>
+                    <th>Paid</th>
+                    <th>Remaining</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in pending_invoices %}
+                <tr>
+                    <td><strong>{{invoice.invoice_number}}</strong></td>
+                    <td>{{invoice.customer_name}}</td>
+                    <td>{{invoice.invoice_date}}</td>
+                    <td>
+                        {{invoice.due_date}}
+                        {% if invoice.status == 'Overdue' %}
+                            <br><span style="font-size: 12px; color: #c62828; font-weight: bold;">⚠ OVERDUE</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if invoice.payment_type == 'Monthly' %}
+                        <span style="padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; background-color: #bbdefb; color: #1565c0;">{{invoice.payment_type}}</span>
+                        {% else %}
+                        <span style="padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; background-color: #c8e6c9; color: #2e7d32;">{{invoice.payment_type}}</span>
+                        {% endif %}
+                    </td>
+                    <td><strong style="color: #217ace;">${{invoice.total|round(2)}}</strong></td>
+                    <td><span style="color: #2e7d32; font-weight: bold;">${{invoice.paid_amount|round(2)}}</span></td>
+                    <td><span style="color: #c62828; font-weight: bold;">${{invoice.get_remaining_balance()|round(2)}}</span></td>
+                    <td>
+                        {% if invoice.status == 'Paid' %}
+                        <span style="padding: 5px 10px; border-radius: 4px; background-color: #c8e6c9; color: #2e7d32;">{{invoice.status}}</span>
+                        {% elif invoice.status == 'Overdue' %}
+                        <span style="padding: 5px 10px; border-radius: 4px; background-color: #ffcdd2; color: #c62828;">{{invoice.status}}</span>
+                        {% elif invoice.status == 'Partial' %}
+                        <span style="padding: 5px 10px; border-radius: 4px; background-color: #fff3e0; color: #ef6c00;">{{invoice.status}}</span>
+                        {% else %}
+                        <span style="padding: 5px 10px; border-radius: 4px; background-color: #fff9c4; color: #f57f17;">{{invoice.status}}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if invoice.payment_type == 'Monthly' %}
+                        <form action="/add_payment/{{invoice.id}}" method="post" style="display: inline;">
+                            <input type="number" name="payment_amount" placeholder="Amount" step="0.01" min="0" max="{{invoice.get_remaining_balance()}}" required style="width: 80px; padding: 4px; margin-right: 5px;">
+                            <input type="text" name="payment_note" placeholder="Note" style="width: 100px; padding: 4px; margin-right: 5px;">
+                            <button type="submit" style="background-color: #b8e1dd; padding: 6px 12px; border-radius: 4px; border: none; color: #444; font-weight: bold; cursor: pointer;">Add Payment</button>
+                        </form>
+                        {% if invoice.get_remaining_balance() > 0 %}
+                        <br><a href="/mark_paid/{{invoice.id}}" style="color: #217ace; text-decoration: underline; font-size: 12px;">Mark Fully Paid</a>
+                        {% endif %}
+                        {% else %}
+                        <a href="/mark_paid/{{invoice.id}}" style="background-color: #b8e1dd; padding: 8px 15px; border-radius: 6px; text-decoration: none; color: #444; font-weight: bold; display: inline-block; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#a4d4cf'" onmouseout="this.style.backgroundColor='#b8e1dd'">Mark as Paid</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% if invoice.payments %}
+                <tr style="background-color: #f9f9f9;">
+                    <td colspan="10" style="padding: 10px;">
+                        <strong>Payment History:</strong>
+                        <table style="width: 100%; margin-top: 5px; font-size: 12px;">
+                            <thead>
+                                <tr style="background-color: #e0e0e0;">
+                                    <th style="padding: 4px; text-align: left;">Date</th>
+                                    <th style="padding: 4px; text-align: left;">Amount</th>
+                                    <th style="padding: 4px; text-align: left;">Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for payment in invoice.payments %}
+                                <tr>
+                                    <td style="padding: 4px;">{{payment.date}}</td>
+                                    <td style="padding: 4px;">${{payment.amount|round(2)}}</td>
+                                    <td style="padding: 4px;">{{payment.note}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div style="background-color: #ffffff; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: #9ab7d3;">
+            <h3 style="color: #2e7d32; margin-top: 0;">✓ All Paid!</h3>
+            <p>All invoices have been paid. There are no pending payments.</p>
+            <a href="/invoice" style="color: #217ace; text-decoration: underline;">View all invoices</a>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

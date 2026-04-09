@@ -1,0 +1,57 @@
+{% extends "adminlayout.html" %}
+
+{% block content %}
+    <header>
+        <h1>Admin Dashboard</h1>
+        <a href="/add_customer" class="add-btn">+ Add Customer</a>
+    </header>
+
+    {% if success_msg %}
+        <div class="alert-box">
+             {{ success_msg }}
+        </div>
+    {% endif %}
+
+    <div class="search-container">
+        <form action="{{ url_for('admindashboard') }}" method="GET" class="search-form">
+            <input type="text" 
+                name="search" 
+                class="search-input"
+                placeholder="Search by ID or Name..." 
+                value="{{ request.args.get('search', '') }}">
+                
+            <button type="submit" class="search-button">Search</button>
+                
+            {% if request.args.get('search') %}
+                <a href="{{ url_for('admindashboard') }}" style="color: var(--text-light); align-self: center; margin-left: 10px; text-decoration: none;">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in customers %}
+                <tr>
+                    <td><strong>#{{ c.get_id() }}</strong></td>
+                    <td>{{ c.get_name() }}</td>
+                    <td>{{ c.get_contact() }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_customer', id=c.get_id()) }}" class="btn-edit">Edit</a>
+                        <a href="/delete/{{ c.get_id() }}" class="btn-delete" onclick="return confirm('Delete this customer?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

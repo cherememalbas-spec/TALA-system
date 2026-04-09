@@ -1,0 +1,90 @@
+{% if user_type == 'admin' %}
+{% extends "adminlayout.html" %}
+{% else %}
+{% extends "userlayout.html" %}
+{% endif %}
+
+{% block content %}
+
+    <div class="content">
+        <h1>TALABILL</h1>
+        <h2>Customer Balances & Outstanding Invoices</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Total Invoiced</th>
+                    <th>Paid</th>
+                    <th>Outstanding</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cust_id, balance in customer_balances.items() %}
+                <tr>
+                    <td><strong>{{balance.name}}</strong></td>
+                    <td>{{balance.email}}</td>
+                    <td>{{balance.contact}}</td>
+                    <td>${{balance.total_invoiced|round(2)}}</td>
+                    <td><span style="color: #2e7d32; font-weight: bold;">${{balance.paid|round(2)}}</span></td>
+                    <td><span style="color: #c62828; font-weight: bold;">${{balance.outstanding|round(2)}}</span></td>
+                </tr>
+                {% if balance.invoices %}
+                <tr style="background-color: #fafafa;">
+                    <td colspan="6" style="padding: 15px;">
+                        <strong>Invoices:</strong>
+                        <table style="width: 100%; margin-top: 10px; background-color: #ffffff;">
+                            <thead>
+                                <tr style="background-color: #f0f0f0;">
+                                    <th style="text-align: left; padding: 8px;">Invoice #</th>
+                                    <th style="text-align: left; padding: 8px;">Date</th>
+                                    <th style="text-align: left; padding: 8px;">Payment Type</th>
+                                    <th style="text-align: left; padding: 8px;">Amount</th>
+                                    <th style="text-align: left; padding: 8px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for invoice in balance.invoices %}
+                                <tr>
+                                    <td style="padding: 8px;">{{invoice.invoice_number}}</td>
+                                    <td style="padding: 8px;">{{invoice.invoice_date}}</td>
+                                    <td style="padding: 8px;">
+                                        {% if invoice.payment_type == 'Monthly' %}
+                                        <span style="padding: 3px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; background-color: #bbdefb; color: #1565c0;">{{invoice.payment_type}}</span>
+                                        {% else %}
+                                        <span style="padding: 3px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; background-color: #c8e6c9; color: #2e7d32;">{{invoice.payment_type}}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 8px;">${{invoice.total|round(2)}}</td>
+                                    <td style="padding: 8px;">
+                                        {% if invoice.status == 'Paid' %}
+                                        <span style="padding: 4px 8px; border-radius: 4px; background-color: #c8e6c9; color: #2e7d32;">{{invoice.status}}</span>
+                                        {% elif invoice.status == 'Overdue' %}
+                                        <span style="padding: 4px 8px; border-radius: 4px; background-color: #ffcdd2; color: #c62828;">{{invoice.status}}</span>
+                                        {% elif invoice.status == 'Partial' %}
+                                        <span style="padding: 4px 8px; border-radius: 4px; background-color: #fff3e0; color: #ef6c00;">{{invoice.status}}</span>
+                                        {% else %}
+                                        <span style="padding: 4px 8px; border-radius: 4px; background-color: #fff9c4; color: #f57f17;">{{invoice.status}}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if not customer_balances %}
+        <div style="background-color: #ffffff; border-radius: 12px; padding: 30px; text-align: center; margin-top: 20px; color: #9ab7d3;">
+            <p>No invoice data available yet.</p>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

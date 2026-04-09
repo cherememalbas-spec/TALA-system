@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign In - TALABILL</title>
+    <style>
+        :root {
+            --primary-blue: #1e40af;    /* Deep Royal Blue */
+            --secondary-blue: #60a5fa;  /* Sky Blue */
+            --light-blue: #eff6ff;      /* Very Pale Blue */
+            --bg-gradient-start: #dbeafe; /* Light Blue Sky */
+            --bg-gradient-end: #bfdbfe;   /* Soft Periwinkle */
+            --text-dark: #1e293b;       /* Slate Dark Blue */
+            --text-muted: #64748b;      /* Slate Gray Blue */
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            padding: 50px;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #217ace;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 36px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--secondary-blue);
+            margin-bottom: 35px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .error {
+            background-color: #ffcdd2;
+            color: #c62828;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-left: 4px solid #c62828;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+            background-color: #f8fafc;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #217ace;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(33, 122, 206, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #217ace;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #1a56a0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(33, 122, 206, 0.3);
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .link {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .link a {
+            color: #217ace;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            text-align: center;
+            color: #ccc;
+            margin: 20px 0;
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h1>TALABILL</h1>
+        <p class="subtitle">Sign In to Your Account</p>
+
+        <form action="/login" method="POST">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required />
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input 
+                type="password" 
+                name="password" 
+                placeholder="Enter your password" required
+                />
+            </div>
+
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+
+        <div class="divider">or</div>
+
+
+    </div>
+</body>
+</html>

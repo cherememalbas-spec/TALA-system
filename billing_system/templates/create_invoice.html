@@ -1,0 +1,88 @@
+{% if user_type == 'admin' %}
+{% extends "adminlayout.html" %}
+{% else %}
+{% extends "userlayout.html" %}
+{% endif %}
+
+{% block content %}
+
+<header>
+    <h1>Create Invoice for {{ customer.get_name() }}</h1>
+    <a href="{{ url_for('invoice') }}" class="add-btn">← Back to Invoices</a>
+</header>
+
+{% if message %}
+<div class="alert-box">
+    {{ message }}
+</div>
+{% endif %}
+
+<div class="table-card" style="margin-bottom: 30px;">
+    <h3 style="padding: 20px; margin: 0; border-bottom: 1px solid #f1f5f9;">Add Item to Invoice</h3>
+    <form method="POST" style="padding: 20px;">
+        {% if invoice %}
+            <input type="hidden" name="invoice_id" value="{{ invoice.get_inv_id() }}">
+        {% endif %}
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+            <input type="text" name="item_name" placeholder="Item Name" required
+                   style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none;">
+            <input type="number" name="qty" placeholder="Quantity" required min="1"
+                   style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none;">
+            <input type="number" name="price" placeholder="Unit Price" required step="0.01" min="0"
+                   style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none;">
+            <input type="number" name="rate" placeholder="Rate (%)" step="0.01" min="0"
+                   style="padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none;">
+        </div>
+
+        <button type="submit" class="add-btn" style="border: none; cursor: pointer;">Add Item</button>
+    </form>
+</div>
+
+{% if invoice %}
+<div class="table-card">
+    <h3 style="padding: 20px; margin: 0; border-bottom: 1px solid #f1f5f9;">Invoice Items</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in invoice.get_items() %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.qty }}</td>
+                <td>₱{{ "%.2f"|format(item.price) }}</td>
+                <td>₱{{ "%.2f"|format(item.total) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="padding: 20px; border-top: 1px solid #f1f5f9;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <strong>Subtotal:</strong>
+            <span>₱{{ "%.2f"|format(invoice.get_subtotal()) }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <strong>Tax Rate ({{ invoice.get_rate() }}%):</strong>
+            <span>₱{{ "%.2f"|format(invoice.get_subtotal() * invoice.get_rate() / 100) }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1.2em; font-weight: bold; color: var(--accent);">
+            <strong>Total:</strong>
+            <span>₱{{ "%.2f"|format(invoice.get_total()) }}</span>
+        </div>
+
+        <form method="POST" style="margin-top: 20px;">
+            <input type="hidden" name="action" value="finalize">
+            <button type="submit" class="add-btn" style="background: var(--success); border: none; cursor: pointer;">Finalize Invoice</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

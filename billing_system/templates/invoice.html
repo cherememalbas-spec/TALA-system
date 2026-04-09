@@ -1,0 +1,73 @@
+{% if user_type == 'admin' %}
+{% extends "adminlayout.html" %}
+{% else %}
+{% extends "userlayout.html" %}
+{% endif %}
+
+{% block content %}
+
+<header>
+    <h1>Invoice Management</h1>
+</header>
+
+<!-- 🔹 CREATE INVOICE (LIKE DASHBOARD TABLE) -->
+<div class="table-card">
+    <h3>Create Invoice</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in customers %}
+            <tr>
+                <td>#{{ c.get_id() }}</td>
+                <td>{{ c.get_name() }}</td>
+                <td>{{ c.get_contact() }}</td>
+                <td>
+                    <a href="{{ url_for('create_invoice', customer_id=c.get_id()) }}" class="btn-edit">
+                        Create Invoice
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<br>
+
+<!-- 🔹 INVOICE LIST -->
+<div class="table-card">
+    <h3>Invoice Records</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Customer</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for inv in invoices %}
+            <tr>
+                <td>#{{ inv.get_inv_id() }}</td>
+                <td>{{ inv.get_customer().get_name() }}</td>
+                <td>₱{{ inv.get_total() }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No invoices yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
