@@ -47,44 +47,48 @@ Before running the project, ensure you have the following installed:
 
 ---
 
-## Usage:
-*-Home / Index Page*
--The system starts at the Home Page
--Shows available user roles
-**Login*
-**Admin:*
-Username: admin
-Password: admin123
-User:
-Username: user
-Password: user123
-**Dashboard*
-Main interface after logging in
-Displays list of customers records
-Features available:
-**Add*
-Users can add new customer data
-Input details through a form
-Data is stored and displayed 
-**Edit*
-Existing customer information can be updated
-Users can modify names or other details
-**Delete*
-Users can remove customer records
-Deleted data will no longer appear in the list
+## 🕹️ Usage Guide
 
+### 🏠 Home / Index Page
+* The system landing page provides an overview of **TALABILL**.
+* Users can view descriptions and choose to "Sign In" to access the system.
+
+### 🔐 Authentication
+Use the following credentials to access the available user roles of the system:
+
+* **Admin Access:**
+    * **Username:** `admin`
+    * **Password:** `admin123`
+* **Staff/User Access:**
+    * **Username:** `user`
+    * **Password:** `user123`
+
+### 📊 Dashboard & Navigation
+* **Main Interface:** After a successful login, users are redirected to the Dashboard which displays the customer records table.
+* **Navigation Bar:** * **Toggle Feature:** Use the sidebar menu to navigate between different system modules.
+
+### 👥 Customer Management (CRUD)
+* **Add:** Click the "Add Customer" button to open the input form. Fill in the details to save a new record.
+* **Edit:** Update existing customer information by clicking the edit icon.
+* **Delete:** Remove outdated or incorrect records from the database.
+* **View:** All data is dynamically pulled and displayed in a clean, professional table format.
+
+### 🚪 Secure Exit
+* **Log Out:** Click the **Log Out** button (found in the top-right profile menu or the bottom of the sidebar) to end your session securely. 
+* This redirects you back to the Home page and prevents unauthorized access to the dashboard.
 ---
 
 ## Module Description
 
 
-*Completed Module:*
-**Module 1:Customer Management Module*
+**Completed Module:**
+### Module 1:Customer Management Module
+
 It allows users to:
 
--Add new customers using input forms
--Store customer data using Python lists and dictionaries 
--Display customer records dynamically on the dashboard
--Automatically generate unique customer IDs
--Edit existing customer information
--Delete customer records when necessary
+* **Add new customers** using input forms
+* **Store customer data** using Python lists and dictionaries 
+* **Display customer records** dynamically on the dashboard
+* **Automatically generate unique customer IDs**
+* **Edit** existing customer information
+* **Delete** customer records when necessary
