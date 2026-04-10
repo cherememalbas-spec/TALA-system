@@ -46,7 +46,6 @@
                         <td>{{ c.get_contact() }}</td>
                         <td>
                             <a href="{{ url_for('edit_customer', id=c.get_id()) }}" class="btn-edit">Edit</a>
-                            <a href="/delete/{{ c.get_id() }}" class="btn-delete" onclick="return confirm('Delete this customer?')">Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
