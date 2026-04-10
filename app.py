@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 
-app = Flask(__name__, template_folder='billing_system/templates')
+app = Flask(__name__)
 
 # GLOBAL STORAGE (Simulating System Data)
 invoices = []
