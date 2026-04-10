@@ -4,7 +4,7 @@
 
 ---
 
-## 👥 Developers
+## 👥 Developers  (BSCS-1B)
 * **Malbas, Chereme**
 * **Aron, Christa Loraine**
 * **Patayan, Mafe**
